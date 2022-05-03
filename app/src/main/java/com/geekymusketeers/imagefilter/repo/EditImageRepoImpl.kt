@@ -1,0 +1,22 @@
+package com.geekymusketeers.imagefilter.repo
+
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import java.io.InputStream
+
+class EditImageRepoImpl(private val context: Context): EditImageRepo{
+
+    override suspend fun prepareImgPreview(imageUri: Uri): Bitmap? {
+        getInputStreamFromUri(imageUri)?.let { inputStream ->
+            val originalBitmap = BitmapFactory.decodeStream(inputStream)
+            val width = context.resources.displayMetrics.widthPixels
+            val height = ((originalBitmap.height*width) / originalBitmap.width)
+            return Bitmap.createScaledBitmap(originalBitmap,width,height,false)
+        } ?: return null
+    }
+    private fun getInputStreamFromUri(uri: Uri): InputStream? {
+        return context.contentResolver.openInputStream(uri)
+    }
+}

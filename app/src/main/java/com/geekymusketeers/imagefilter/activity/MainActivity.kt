@@ -1,9 +1,10 @@
-package com.geekymusketeers.imagefilter
+package com.geekymusketeers.imagefilter.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import com.geekymusketeers.imagefilter.activity.editimages.EditImageScreen
 import com.geekymusketeers.imagefilter.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
