@@ -3,6 +3,7 @@
     package="com.geekymusketeers.imagefilter">
 
     <application
+        android:name=".utilities.AppConfig"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -10,8 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageFilter">
         <activity
-            android:name=".activity.editimages.EditImageScreen"
-            android:exported="false" />
+            android:name=".activity.editimages.EditImageScreen" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="true"

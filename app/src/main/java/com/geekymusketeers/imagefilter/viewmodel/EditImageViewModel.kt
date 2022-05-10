@@ -11,31 +11,31 @@ import com.geekymusketeers.imagefilter.utilities.Coroutines
 class EditImageViewModel(private val editImageRepository: EditImageRepo) : ViewModel(){
 
     private val imagePreviewDataState = MutableLiveData<ImagePreviewDataState>()
-    val uniState: LiveData<ImagePreviewDataState> get() = imagePreviewDataState
+    val imagePreviewUiState: LiveData<ImagePreviewDataState> get() = imagePreviewDataState
 
     fun prepareImagePreview(imageUri: Uri){
         Coroutines.io {
             kotlin.runCatching {
-                emitState(isLoading = true)
+                emitImagePreviewUiState(isLoading = true)
                 editImageRepository.prepareImgPreview(imageUri)
             }.onSuccess { bitmap ->
                 if (bitmap !=null){
-                    emitState(bitmap = bitmap)
+                    emitImagePreviewUiState(bitmap = bitmap)
                 }else{
-                    emitState(error = "Unable to prepare image preview")
+                    emitImagePreviewUiState(error = "Unable to prepare image preview")
                 }
             }.onFailure {
-                emitState(error = it.message.toString())
+                emitImagePreviewUiState(error = it.message.toString())
             }
         }
     }
-    private fun emitState(
+    private fun emitImagePreviewUiState(
         isLoading: Boolean = false,
         bitmap: Bitmap? =null,
         error: String? = null
     ){
         val dataState = ImagePreviewDataState(isLoading, bitmap, error)
-        imagePreviewDataState.value = dataState
+        imagePreviewDataState.postValue(dataState)
     }
 
     data class ImagePreviewDataState(
