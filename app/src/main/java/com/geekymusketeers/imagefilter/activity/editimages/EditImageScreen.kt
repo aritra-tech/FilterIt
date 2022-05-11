@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.geekymusketeers.imagefilter.activity.MainActivity
+import com.geekymusketeers.imagefilter.adapter.ImageFilterAdapter
 import com.geekymusketeers.imagefilter.databinding.ActivityEditImageScreenBinding
 import com.geekymusketeers.imagefilter.utilities.displayToast
 import com.geekymusketeers.imagefilter.utilities.show
@@ -49,8 +50,23 @@ class EditImageScreen : AppCompatActivity() {
             dataState.bitmap?.let { bitmap ->
                 binding.imagePreview.setImageBitmap(bitmap)
                 binding.imagePreview.show()
+                viewModel.loadImageFilters(bitmap)
             } ?: kotlin.run {
                 dataState.error?.let { error ->
+                    displayToast(error)
+                }
+            }
+        }
+        viewModel.imageFiltersUiState.observe(this) {
+            val imageFilterDataState = it ?: return@observe
+            binding.imageFilterProgressBar.visibility =
+                if (imageFilterDataState.isLoading) View.VISIBLE else View.GONE
+            imageFilterDataState.imageFilter?.let { imageFilter ->
+                ImageFilterAdapter(imageFilter).also { adapter ->
+                    binding.filtersRecyclerView.adapter = adapter
+                }
+            } ?: kotlin.run {
+                imageFilterDataState.error?.let { error ->
                     displayToast(error)
                 }
             }
