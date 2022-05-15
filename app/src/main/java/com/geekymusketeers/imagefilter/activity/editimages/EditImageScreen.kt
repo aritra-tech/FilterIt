@@ -30,7 +30,7 @@ class EditImageScreen : AppCompatActivity(), ImageFilterListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditImageScreenBinding.inflate(layoutInflater)
-        setContentView(binding.root)/
+        setContentView(binding.root)  //
         setListerner()
         displayImagePreview()
         setupObservers()
