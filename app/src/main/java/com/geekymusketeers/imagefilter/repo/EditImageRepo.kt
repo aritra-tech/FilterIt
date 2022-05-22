@@ -7,4 +7,5 @@ import com.geekymusketeers.imagefilter.data.ImageFilter
 interface EditImageRepo {
     suspend fun prepareImgPreview(imageUri: Uri): Bitmap?
     suspend fun getImageFilters(imageUri: Bitmap): List<ImageFilter>
+    suspend fun saveFilteredImage(filteredBitmap: Bitmap): Uri?
 }

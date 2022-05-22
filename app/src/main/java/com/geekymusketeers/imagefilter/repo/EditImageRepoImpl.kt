@@ -4,10 +4,15 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.os.Environment
+import androidx.core.content.FileProvider
 import com.geekymusketeers.imagefilter.data.ImageFilter
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import jp.co.cyberagent.android.gpuimage.filter.*
+import java.io.File
+import java.io.FileOutputStream
 import java.io.InputStream
+import java.lang.Exception
 
 class EditImageRepoImpl(private val context: Context): EditImageRepo{
 
@@ -417,6 +422,32 @@ class EditImageRepoImpl(private val context: Context): EditImageRepo{
             )
         }
         return imageFilter
+    }
+
+    override suspend fun saveFilteredImage(filteredBitmap: Bitmap): Uri? {
+        return try {
+            val mediaStorageDirectory = File(
+                context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),
+                "Saved Images"
+            )
+            if (!mediaStorageDirectory.exists()){
+                mediaStorageDirectory.mkdirs()
+            }
+            val fileName = "IMG_${System.currentTimeMillis()}.jpg"
+            val file = File(mediaStorageDirectory, fileName)
+            saveFile(file,filteredBitmap)
+            FileProvider.getUriForFile(context,"${context.packageName}.provider",file)
+
+        }catch (exception: Exception){
+            null
+        }
+    }
+    private suspend fun saveFile(file: File, bitmap: Bitmap){
+        with(FileOutputStream(file)) {
+            bitmap.compress(Bitmap.CompressFormat.JPEG,100,this);
+            flush()
+            close()
+        }
     }
 
     private fun getInputStreamFromUri(uri: Uri): InputStream? {

@@ -87,4 +87,26 @@ class EditImageViewModel(private val editImageRepository: EditImageRepo) : ViewM
         val imageFilter: List<ImageFilter>?,
         val error: String?
     )
+
+    //region:: Save Filtered Image
+
+    private val saveFileImageDataState = MutableLiveData<SaveFileImageDataState>()
+    val saveFilteredImageUiSate: LiveData<SaveFileImageDataState> get() = saveFileImageDataState
+
+    private fun emitSavedFilteredImageUriState(
+        isLoading: Boolean = false,
+        uri: Uri? = null,
+        error: String? = null
+    ){
+        val dataState = SaveFileImageDataState(isLoading, uri, error)
+        saveFileImageDataState.postValue(dataState)
+    }
+
+    data class SaveFileImageDataState(
+        val isLoading: Boolean,
+        val uri: Uri?,
+        val error: String?
+    )
+    //endregion
+
 }
