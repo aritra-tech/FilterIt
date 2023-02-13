@@ -21,7 +21,7 @@ The pictures can be shared publicly through social media apps  <br>
 such as Instagram, Facebook, and WhatsApp. Pictures can also  <br>
 be sent via text message and Bluetooth. 
 
- ![alt text](https://github.com/Sthyarala/FilterIt/blob/master/Share_Pictures.jpg)
+ ![alt text](FilterIt/Share_Pictures.jpg)
  
 ## How To Use App
 Once the app is downloaded on an Android device, a text box will prompt the user to take a picture or upload an <br>
